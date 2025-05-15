@@ -1,0 +1,42 @@
+.notfound-container {
+  text-align: center;
+  padding: 100px 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.notfound-title {
+  font-size: 120px;
+  background: url('\universe.jpg') no-repeat center;
+  background-size: cover;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-weight: bold;
+}
+
+.notfound-subtitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.notfound-description {
+  font-size: 16px;
+  color: #555;
+  margin: 20px 0;
+}
+
+.notfound-button {
+  background-color: #2962ff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.notfound-button:hover {
+  background-color: #0039cb;
+}
