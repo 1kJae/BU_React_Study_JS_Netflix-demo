@@ -1,0 +1,43 @@
+body {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.netflix-navbar {
+  background-color: #000 !important;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.netflix-navbar .navbar-brand {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 5px;
+  margin-right: 1rem; 
+}
+
+.netflix-navbar .nav-link {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-right: 10px;
+  font-size: 15px;
+}
+
+.search-input {
+  background-color: #333 !important;
+  border: none;
+  color: #ccc !important;
+}
+.search-input::placeholder {
+  color: #777 !important;
+}
+
+.search-btn {
+  border: 1px solid #e50914 !important;
+  color: #e50914 !important;
+  background-color: #000 !important;
+}
+.search-btn:hover {
+  background-color: #e50914 !important;
+  color: #fff !important;
+}
