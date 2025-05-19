@@ -1,7 +1,7 @@
 import React from 'react'
 import Alert from 'react-bootstrap/Alert';
 import { Spinner } from 'react-bootstrap'
-import { usePopularMovieQuery } from '../../../hooks/usePopularMovies'
+import { usePopularMovieQuery } from '../../../../hooks/usePopularMovies'
 import "./Banner.style.css"
 
 const Banner = () => {

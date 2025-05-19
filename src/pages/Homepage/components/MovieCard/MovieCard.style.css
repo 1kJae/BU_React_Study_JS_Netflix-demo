@@ -1,0 +1,37 @@
+.movie-card{
+  width:220px;height:330px;
+  background-size:cover;background-position:center;
+  cursor:pointer;border:1px solid #444;
+  position:relative;transition:.3s;
+}
+.movie-card:hover{transform:scale(1.05);z-index:2;}
+
+.overlay{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.72);
+  color:#fff;font-family:"Inter","Pretendard",sans-serif;
+  display:flex;flex-direction:column;justify-content:space-between;  
+  align-items:center;               
+  padding:12px;opacity:0;transition:opacity .3s;
+}
+.movie-card:hover .overlay{opacity:1;}
+
+.overlay-header{                
+  text-align:center;
+}
+.overlay-header .movie-title{      
+  font-size:18px;line-height:1.3;margin:0 0 4px;
+  font-family:"Playfair Display",serif;
+}
+.overlay-header hr{border:0;border-top:1.5px solid #999;width:32px;margin:0 auto 6px;}
+
+.badge-wrap{              
+  display:flex;gap:4px;justify-content:center;flex-wrap:wrap;
+}
+.badge-wrap > .badge{font-size:12px;}
+
+.overlay-footer{                
+  display:flex;gap:10px;font-size:13px;align-items:center;
+}
+.overlay-footer .adult{color:#ff6961;}
+.overlay-footer .under18{color:#9df29d;}

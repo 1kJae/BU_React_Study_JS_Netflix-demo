@@ -1,21 +1,13 @@
-import React from 'react'
-import Banner from './components/Banner'
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import PopularMovieSlide from './components/PopularMovieSlide/PopularMovieSlide';
+import React from "react";
+import Banner from "./components/Banner/Banner";
+import MovieSlide from "./components/MovieSlide/MovieSlide";
 
-// 1. 배너 => popular 영화를 들고와서 첫번째 아이템을 보여주자.
-// 2. popular movie
-// 3. top rated movie
-// 4. upcoming movie
-
-const Homepage = () => {
-  return (
-    <div>
-      <Banner />
-      <PopularMovieSlide />
-    </div>
-  );
-};
-
-export default Homepage
+const Homepage = () => (
+  <div>
+    <Banner />
+    <MovieSlide title="Popular Movies" endpoint="/movie/popular" />
+    <MovieSlide title="Top Rated Movies" endpoint="/movie/top_rated" />
+    <MovieSlide title="Upcoming Movies" endpoint="/movie/upcoming" />
+  </div>
+);
+export default Homepage;
