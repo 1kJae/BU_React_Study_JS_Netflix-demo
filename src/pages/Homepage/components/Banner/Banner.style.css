@@ -1,10 +1,9 @@
 .banner {
-    position: relative;
-    height: 56vh;
-    background-position: left;
-    background-repeat: no-repeat;
-    background-size: cover;
-    overflow: hidden;
+  position: relative;
+  height: 56vh;
+  background-position: left top; 
+  background-size: cover;
+  overflow: hidden;
 }
 .banner::before {
     content: '';
@@ -25,4 +24,18 @@
     justify-content: flex-end;
     height: 100%;
     padding: 20px;
+}
+@media (max-width: 576px) {
+  .banner {
+    height: 48vh;            
+    background-position: center top;
+  }
+  .banner-text-area {
+    width: 90%;               
+    padding: 16px;
+    font-size: 0.9rem;      
+  }
+  .banner-text-area h1 {
+    font-size: 1.4rem;
+  }
 }

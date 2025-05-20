@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap");
+
+.movie-slide-wrapper{ padding: 8px 12px; }
+.section-title      { margin: 0 0 4px 4px; }
+.carousel-container { overflow:hidden; height:440px; }
+.movie-slider-item  { padding: 0 4px; }
+
+@media (max-width:576px){
+  .movie-slide-wrapper{ padding: 8px 8px; }
+  .section-title     { font-size:22px; margin-bottom:4px; }
+  .carousel-container{ height:320px; }
+}

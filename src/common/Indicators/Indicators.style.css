@@ -1,0 +1,15 @@
+.card-indicators{
+  display:flex;
+  justify-content:center;
+  gap:4px;
+  margin-top:8px;
+}
+@media (hover:hover){
+  .card-indicators{ display:none; }
+}
+.card-indicators .dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 4px 2px rgba(255,255,255,.85);
+  transition:opacity .25s;
+}

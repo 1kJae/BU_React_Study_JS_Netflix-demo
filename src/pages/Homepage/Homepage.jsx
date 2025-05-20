@@ -1,13 +1,16 @@
 import React from "react";
 import Banner from "./components/Banner/Banner";
-import MovieSlide from "./components/MovieSlide/MovieSlide";
+import MovieSlider from "../../common/MovieSlider/MovieSlider";
 
-const Homepage = () => (
-  <div>
-    <Banner />
-    <MovieSlide title="Popular Movies" endpoint="/movie/popular" />
-    <MovieSlide title="Top Rated Movies" endpoint="/movie/top_rated" />
-    <MovieSlide title="Upcoming Movies" endpoint="/movie/upcoming" />
-  </div>
-);
+function Homepage() {
+  return (
+    <>
+      <Banner />
+      <MovieSlider title="Popular Movies" endpoint="/movie/popular" />
+      <MovieSlider title="Top Rated Movies" endpoint="/movie/top_rated" />
+      <MovieSlider title="Upcoming Movies"  endpoint="/movie/upcoming" />
+    </>
+  );
+}
+
 export default Homepage;
