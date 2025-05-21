@@ -3,10 +3,24 @@ import Badge from "react-bootstrap/Badge";
 import { AiFillStar } from "react-icons/ai";
 import { BsPeopleFill } from "react-icons/bs";
 import "./MovieCard.style.css";
+import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
 
-const GENRE = { 28: "Action", 35: "Comedy", 12: "Adventure" };
+//const GENRE = { 28: "Action", 35: "Comedy", 12: "Adventure" };
 
 function MovieCard({ movie, index, slideIndex, activeIndex, total }) {
+  
+  const { data: genreData } = useMovieGenreQuery();
+
+  const showGenre = (genreIdList) => {
+    if(!genreData) return []
+    const genreNameList = genreIdList.map((id) => {
+      const genreObj = genreData.find((genre) => genre.id === id);
+      return genreObj.name;
+    });
+
+    return genreNameList;
+  }
+
   const [show, setShow] = useState(false);
   const isHoverable = window.matchMedia("(hover: hover)").matches;
 
@@ -35,9 +49,9 @@ function MovieCard({ movie, index, slideIndex, activeIndex, total }) {
           <h5 className="movie-title">{movie.title}</h5>
           <hr />
           <div className="badge-wrap">
-            {movie.genre_ids.slice(0, 3).map((id) => (
-              <Badge bg="danger" key={id}>
-                {GENRE[id] ?? id}
+            {showGenre(movie.genre_ids).slice(0, 3).map((name) => (
+              <Badge bg="danger" key={name}>
+                {name}
               </Badge>
             ))}
           </div>

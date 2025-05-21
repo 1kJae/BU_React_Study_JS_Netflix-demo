@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navbar, Nav, Container, Form, FormControl, Button } from 'react-bootstrap';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './AppLayout.css';
 
 const AppLayout = () => {
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
+
+  const searchByKeyword = (event) => {
+    event.preventDefault()
+    // url 바꿔주기
+    navigate(`/movies?q=${keyword}`);
+    setKeyword("");
+  };
   return (
     <>
       <Navbar
@@ -32,14 +41,16 @@ const AppLayout = () => {
                 Movies
               </Nav.Link>
             </Nav>
-            <Form className="d-flex">
+            <Form className="d-flex" onSubmit={searchByKeyword}>
               <FormControl
                 type="search"
                 placeholder="Search"
                 className="me-2 search-input"
                 aria-label="Search"
+                value={keyword}
+                onChange={(event) => setKeyword(event.target.value)}
               />
-              <Button className="search-btn">
+              <Button className="search-btn" type='submit'>
                 <i className="bi bi-search" />
               </Button>
             </Form>
