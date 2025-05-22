@@ -1,9 +1,14 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import SortDropdown from './SortDropdown';
 
 function FilterSidebar({ genres, selected, onToggle }) {
   return (
     <div className="p-3">
+      <div className="mb-3">
+        <SortDropdown sortKey={sortKey} onSortChange={onSortChange} />
+      </div>
+      <hr className="my-3" />
       <h5 className="mb-3">장르</h5>
       {genres.map(g => (
         <Form.Check

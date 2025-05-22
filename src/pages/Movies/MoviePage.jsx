@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useSearchMovieQuery } from '../../hooks/useSearchMovie';
 import { useSearchParams } from 'react-router-dom';
 import { Alert, Container, Spinner, Row, Col } from 'react-bootstrap';
@@ -7,6 +7,27 @@ import MovieCard from '../../common/MovieCard/MovieCard';
 import ReactPaginate from 'react-paginate';
 import FilterSidebar from "./components/FilterSidebar";
 import SortDropdown from "./components/SortDropdown";
+import { fetchDiscoveredMovies } from '../api/api';
+
+const sortKeyMap = {
+  ratingDesc: 'vote_average.desc',
+  ratingAsc: 'vote_average.asc',
+  popularity: 'popularity.desc',
+  release: 'release_date.desc',
+};
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetchDiscoveredMovies(page, selectedGenres, sortKeyMap[sortKey]);
+      setMovies(response.data.results);
+      setTotal(response.data.total_pages);
+    } catch (err) {
+      console.error("영화 데이터를 불러오는 중 오류 발생:", err);
+    }
+  };
+  fetchData();
+}, [page, selectedGenres, sortKey]);
 
 const MoviePage = () => {
   const [query] = useSearchParams();
@@ -14,12 +35,12 @@ const MoviePage = () => {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [sortKey, setSortKey] = useState("ratingDesc");
 
+  const [movies, setMovies] = useState([]);
+  const [total, setTotal] = useState(1);
+
   const keyword = query.get("q") || "";
   const { data, isLoading, isError, error } = useSearchMovieQuery({ keyword, page });
   const { data: genreList = [] } = useMovieGenreQuery();
-
-  // ✅ useMemo는 무조건 컴포넌트 함수 본문 최상단에 있어야 함!
-  const movies = data?.results ?? [];
 
   const filtered = useMemo(() => {
     if (selectedGenres.length === 0) return movies;
@@ -43,7 +64,6 @@ const MoviePage = () => {
     setPage(selected + 1);
   };
 
-  // ✅ 조건문은 useMemo 호출 이후에 해야 함
   if (isLoading) {
     return (
       <div className="spinner-area">
@@ -71,35 +91,49 @@ const MoviePage = () => {
           />
         </Col>
         <Col lg={9} xs={12}>
-          <SortDropdown value={sortKey} onChange={(k) => setSortKey(k)} />
+          <FilterSidebar
+            selectedGenres={selectedGenres}
+            onGenreChange={handleGenreChange}
+            sortKey={sortKey}
+            onSortChange={handleSortChange}
+          />
           <Row>
-            {sorted.map((movie, index) => (
-              <Col key={index} lg={4} xs={12} className="mb-4">
+            {movies.map(movie => (
+              <Col key={movie.id} xs={6} md={3} lg={2}>
                 <MovieCard movie={movie} />
               </Col>
             ))}
           </Row>
-          <ReactPaginate
-            nextLabel="next >"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={3}
-            marginPagesDisplayed={2}
-            pageCount={data?.total_pages}
-            previousLabel="< previous"
-            pageClassName="page-item"
-            pageLinkClassName="page-link"
-            previousClassName="page-item"
-            previousLinkClassName="page-link"
-            nextClassName="page-item"
-            nextLinkClassName="page-link"
-            breakLabel="..."
-            breakClassName="page-item"
-            breakLinkClassName="page-link"
-            containerClassName="pagination"
-            activeClassName="active"
-            renderOnZeroPageCount={null}
-            forcePage={page - 1}
-          />
+          <div className="d-flex justify-content-center my-4">
+            {page>1 && (
+              <>
+                <button className="btn btn-light me-1" onClick={()=>setPage(1)}>≪</button>
+                <button className="btn btn-light me-3" onClick={()=>setPage(page-1)}>＜</button>
+              </>
+            )}
+
+            <ReactPaginate
+              pageCount={total}
+              pageRangeDisplayed={7}      /* 현재±3 */
+              marginPagesDisplayed={0}
+              onPageChange={({selected})=>setPage(selected+1)}
+              forcePage={page-1}
+              containerClassName="pagination"
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              activeClassName="active"
+              previousLabel={null}
+              nextLabel={null}
+              breakLabel="…"
+            />
+
+            {page<total && (
+              <>
+                <button className="btn btn-light ms-3" onClick={()=>setPage(page+1)}>＞</button>
+                <button className="btn btn-light ms-1" onClick={()=>setPage(total)}>≫</button>
+              </>
+            )}
+          </div>
         </Col>
       </Row>
     </Container>
