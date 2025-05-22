@@ -4,11 +4,12 @@ import { AiFillStar } from "react-icons/ai";
 import { BsPeopleFill } from "react-icons/bs";
 import "./MovieCard.style.css";
 import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
+import { useNavigate } from "react-router-dom";
 
 //const GENRE = { 28: "Action", 35: "Comedy", 12: "Adventure" };
 
 function MovieCard({ movie, index, slideIndex, activeIndex, total }) {
-  
+  const navigate = useNavigate();
   const { data: genreData } = useMovieGenreQuery();
 
   const showGenre = (genreIdList) => {
@@ -39,7 +40,7 @@ function MovieCard({ movie, index, slideIndex, activeIndex, total }) {
     <div
       className="movie-card"
       style={{ backgroundImage: `url(${posterUrl})` }}
-      onClick={handleClick}
+      onClick={() => navigate(`/movies/${movie.id}`)}
     >
       <div
         className={`overlay ${show ? "show" : ""}`}

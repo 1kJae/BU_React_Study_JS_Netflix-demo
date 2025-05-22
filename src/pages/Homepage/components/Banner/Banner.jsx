@@ -8,23 +8,6 @@ const Banner = () => {
     const { data, isLoading, isError, error } = usePopularMovieQuery();
     console.log("data", data);
 
-    if(isLoading) {
-      return (
-        <div className="d-flex justify-content-center align-items-center" style={{ height: '300px' }}>
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
-      );
-    }
-
-    if(isError) {
-      return (
-        <Alert variant='danger'>{error.message}</Alert>
-      );
-    }
-
-
   return (
     <div style={{
       backgroundImage:
