@@ -10,27 +10,16 @@ const api = axios.create({
     },
 });
 
-axios.interceptors.request.use(
-    function (config) {
-    return config;
-  }, 
-  function (error) {
-    return Promise.reject(error);
-  }
-);
-
-axios.interceptors.response.use(
-    function (response) {
-    return response;
-  }, function (error) {
-    return Promise.reject(error);
-  }
-);
-
-export const fetchDiscoveredMovies = (page = 1, genres = [], sort = 'popularity.desc') => {
+export const fetchDiscoveredMovies = (
+  page = 1,
+  genres = [],
+  sort = 'popularity.desc'
+) => {
   const g = genres.length ? `&with_genres=${genres.join(',')}` : '';
   const v = sort.includes('vote_average') ? '&vote_count.gte=50' : '';
-  return api.get(`/discover/movie?page=${page}${g}&sort_by=${sort}${v}&language=ko-KR`);
+  return api.get(
+    `/discover/movie?page=${page}${g}&sort_by=${sort}${v}&language=ko-KR`
+  );
 };
 
 export default api;

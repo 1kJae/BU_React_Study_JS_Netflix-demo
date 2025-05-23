@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Badge, Button, Modal, Spinner } from "react-bootstrap";
 import YouTube from "react-youtube";
 import "./MovieDetail.style.css";
+import './RecCard.css';
 
 const IMG_300 = "https://www.themoviedb.org/t/p/w300_and_h450_bestv2";
 const API = "https://api.themoviedb.org/3";
@@ -19,13 +20,12 @@ function MovieDetailPage() {
   const [showModal, setShowModal] = useState(false);
   const [expIdx, setExpIdx] = useState(null);
 
-  // ───────── API 호출 ─────────
   useEffect(() => {
     const fetchAll = async () => {
       const headers = { Authorization: `Bearer ${KEY}` };
       const [detail, rev, rec, vid] = await Promise.all([
         fetch(`${API}/movie/${id}?language=ko-KR`, { headers }).then(r=>r.json()),
-        fetch(`${API}/movie/${id}/reviews?language=ko-KR`, { headers }).then(r=>r.json()),
+        fetch(`${API}/movie/${id}/reviews`, { headers }).then(r=>r.json()),
         fetch(`${API}/movie/${id}/recommendations?language=ko-KR`, { headers }).then(r=>r.json()),
         fetch(`${API}/movie/${id}/videos?language=ko-KR`, { headers }).then(r=>r.json())
       ]);
@@ -46,11 +46,9 @@ function MovieDetailPage() {
     );
   }
 
-  // ───────── 렌더 ─────────
   return (
     <Container className="text-light py-4">
       <Row>
-        {/* 포스터 */}
         <Col md={4} className="text-center mb-4">
           <img
             src={IMG_300 + movie.poster_path}
@@ -59,7 +57,6 @@ function MovieDetailPage() {
           />
         </Col>
 
-        {/* 정보 */}
         <Col md={8}>
           <div>
             {movie.genres.map(g=>(
@@ -77,7 +74,6 @@ function MovieDetailPage() {
 
           <hr className="border-secondary"/>
 
-          {/* 추가 정보 */}
           <ul style={{listStyle:"none", paddingLeft:0, lineHeight:"2"}}>
             <li><Badge bg="danger" className="me-2">Budget</Badge>${movie.budget.toLocaleString()}</li>
             <li><Badge bg="danger" className="me-2">Revenue</Badge>${movie.revenue.toLocaleString()}</li>
@@ -85,7 +81,6 @@ function MovieDetailPage() {
             <li><Badge bg="danger" className="me-2">Runtime</Badge>{movie.runtime}분</li>
           </ul>
 
-          {/* 예고편 버튼 */}
           {trailer && (
             <Button variant="danger" onClick={()=>setShowModal(true)}>
               예고편 보기
@@ -94,7 +89,6 @@ function MovieDetailPage() {
         </Col>
       </Row>
 
-      {/* ---------- 리뷰 ---------- */}
       <h3 className="mt-5 mb-3">리뷰</h3>
       {reviews.length === 0 && <p>리뷰가 없습니다.</p>}
       {reviews.map((rev, idx)=>(
@@ -113,40 +107,50 @@ function MovieDetailPage() {
         </div>
       ))}
 
-      {/* ---------- 추천 영화 ---------- */}
-      {recs.length>0 && (
+      {recs.length > 0 && (
         <>
           <h3 className="mt-5 mb-3">추천 영화</h3>
           <div className="d-flex flex-wrap">
-            {recs.slice(0,10).map(r=>(
-              <div key={r.id} style={{width:120}} className="me-3 mb-3">
-                <img
-                  src={`https://www.themoviedb.org/t/p/w200${r.poster_path}`}
-                  alt={r.title}
-                  className="img-fluid rounded"
-                  style={{cursor:"pointer"}}
-                  onClick={()=>nav(`/movies/${r.id}`)}
-                />
+            {recs.slice(0, 10).map((r) => (
+              <div
+                key={r.id}
+                className="rec-card me-3 mb-3"
+                style={{
+                  backgroundImage: `url(https://www.themoviedb.org/t/p/w300${r.poster_path})`,
+                }}
+                onClick={() => nav(`/movies/${r.id}`)}
+              >
+                <div className="overlay">{r.title}</div>
               </div>
             ))}
           </div>
         </>
       )}
 
-      {/* ---------- 예고편 모달 ---------- */}
       <Modal
         show={showModal}
-        onHide={()=>setShowModal(false)}
-        size="lg"
-        centered
+        onHide={() => setShowModal(false)}
+        fullscreen="md-down"
+        size="xl"
         contentClassName="bg-dark"
       >
-        <Modal.Header closeButton closeVariant="white" className="border-0"/>
+        <Modal.Header closeButton closeVariant="white" className="border-0" />
         <Modal.Body className="p-0">
-          {trailer
-            ? <YouTube videoId={trailer} className="w-100" opts={{playerVars:{autoplay:1}}}/>
-            : <p className="text-center my-5">예고편이 없습니다.</p>
-          }
+          {trailer ? (
+            <div style={{ width: '100%', maxWidth: '1280px', height: '720px', margin: '0 auto' }}>
+              <YouTube
+                videoId={trailer}
+                className="w-100 h-100"
+                opts={{
+                  width: '100%',
+                  height: '100%',
+                  playerVars: { autoplay: 1 }
+                }}
+              />
+            </div>
+          ) : (
+            <p className="text-center my-5">예고편이 없습니다.</p>
+          )}
         </Modal.Body>
       </Modal>
     </Container>

@@ -1,6 +1,5 @@
 import React from "react";
-import { Dropdown, DropdownButton } from "react-bootstrap";
-import SortDropdown from './SortDropdown'
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 const LABEL = {
   ratingDesc: "평점 높은 순",
@@ -15,11 +14,13 @@ function SortDropdown({ value, onChange }) {
       id="sort-dropdown"
       title={`정렬: ${LABEL[value]}`}
       variant="secondary"
-      className="mb-3"
       onSelect={onChange}
+      size="sm"
     >
-      {Object.entries(LABEL).map(([k,v])=>(
-        <Dropdown.Item eventKey={k} key={k}>{v}</Dropdown.Item>
+      {Object.entries(LABEL).map(([k, v]) => (
+        <Dropdown.Item eventKey={k} key={k}>
+          {v}
+        </Dropdown.Item>
       ))}
     </DropdownButton>
   );
